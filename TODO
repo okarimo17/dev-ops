@@ -1,0 +1,7 @@
+- Docker build command : docker build -t node-srv .
+- Docker run command : docker run -p 5000:5000 node-srv
+- Docker run with name : docker run --name node-app -p 5000:5000 node-srv
+- Create a network: docker network create my-app-network
+
+- Run the backend: docker run --name nserver --network my-app-network backend-image-name
+- Run the frontend: docker run --name fclient --network my-app-network frontend-image-name
