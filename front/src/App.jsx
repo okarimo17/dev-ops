@@ -1,12 +1,13 @@
 import { useState, useMemo, useEffect } from 'react'
 import viteLogo from '/vite.svg'
 import './App.css'
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
   const [hostInfo, setHostInfo] = useState("Loading...")
   
   const getHostInfo = useMemo(() => async ()=>{
-    const response = await fetch("http://localhost:5000/")
+    const response = await fetch(`${backendUrl}/`)
     const hostname = response.json()
     setHostInfo(hostname)
   })

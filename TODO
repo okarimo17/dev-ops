@@ -7,3 +7,5 @@
 - Run the frontend: docker run --name fclient --network my-app-network frontend-image-name
 - Run image interactivity:  docker run -it ubuntu bash | -d detached working in the background + docker exec -it some-nginx bash open it
 - Run nginx link with front build : docker run --name some-nginx -p 8000:80 -v ./front/dist:/usr/share/nginx/html nginx
+
+- Build image with envs : docker build --build-arg BACKEND_URL=http://localhost:3000/  -t nginx-front . | define them as ARG BACKEND_URL | usage $BACKEND_URL
