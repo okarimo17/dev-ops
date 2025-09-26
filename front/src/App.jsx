@@ -5,17 +5,19 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 function App() {
   const [hostInfo, setHostInfo] = useState("Loading...")
-  
   const getHostInfo = useMemo(() => async ()=>{
-    const response = await fetch(`${backendUrl}/`)
-    const hostname = response.json()
-    setHostInfo(hostname)
+    try{
+      const response = await fetch(`${backendUrl}`)
+      const hostname = response.json()
+      setHostInfo(hostname)
+    }catch(error){
+      console.error(error.message)
+    }
   })
 
   useEffect(()=>{
     getHostInfo()
   }, [])
-
 
   return (
     <>
