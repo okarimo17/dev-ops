@@ -15,6 +15,13 @@ server.get("/", (req,res)=> {
     return res.json(os.hostname())
 })
 
+server.get("/test", (req, res) => {
+  res.json({
+    msg: "API test",
+    container: os.hostname()
+  });
+});
+
 server.listen(SERVER_PORT, ()=>{
     console.log(`Server is running on : http://localhost:${SERVER_PORT}`)
 })

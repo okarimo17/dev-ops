@@ -19,7 +19,7 @@ services:
       - full_app_network
 
   api:
-    container_name: api
+    # container_name: api
     build: 
       context: ./server/
       dockerfile: Dockerfile

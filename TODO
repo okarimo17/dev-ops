@@ -9,3 +9,4 @@
 - Run nginx link with front build : docker run --name some-nginx -p 8000:80 -v ./front/dist:/usr/share/nginx/html nginx
 
 - Build image with envs : docker build --build-arg BACKEND_URL=http://localhost:3000/  -t nginx-front . | define them as ARG BACKEND_URL | usage $BACKEND_URL
+- Run docker with multiple replicas (add compose then run): docker compose up --scale api=3 --build (multiple instance with docker)
