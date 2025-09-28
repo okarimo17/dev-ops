@@ -4,7 +4,7 @@ services:
   front:
     container_name: front
     build: 
-      context: ./front/
+      context: ../shared/front/
       dockerfile: Dockerfile
       args:
         # BACKEND_URL: http://localhost:3000/
@@ -21,7 +21,7 @@ services:
   api:
     # container_name: api
     build: 
-      context: ./server/
+      context: ../shared/server/
       dockerfile: Dockerfile
     # restart: unless-stopped 
     # ports:
@@ -32,9 +32,10 @@ services:
       - NODE_ENV=production
     networks:
       - full_app_network
+    
 
   rev_proxy:
-    image: nginx:alpine
+    image: nginx:1.29.1-alpine
     container_name: rev_proxy
     ports:
       - 80:80

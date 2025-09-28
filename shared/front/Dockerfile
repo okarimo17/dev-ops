@@ -13,7 +13,7 @@ ENV VITE_BACKEND_URL=$BACKEND_URL
 
 RUN npm run build
 
-FROM nginx:alpine AS runtime
+FROM nginx:1.29.1-alpine AS runtime
 COPY --from=builder /app/dist /usr/share/nginx/html
 
 EXPOSE 80
