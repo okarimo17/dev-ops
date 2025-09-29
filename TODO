@@ -10,3 +10,4 @@
 
 - Build image with envs : docker build --build-arg BACKEND_URL=http://localhost:3000/  -t nginx-front . | define them as ARG BACKEND_URL | usage $BACKEND_URL
 - Run docker with multiple replicas (add compose then run): docker compose up --scale api=3 --build (multiple instance with docker)
+- Docker swarm : used to orchestarte contains on multiple docker hosts (nodes) 
