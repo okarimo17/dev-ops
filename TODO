@@ -10,4 +10,17 @@
 
 - Build image with envs : docker build --build-arg BACKEND_URL=http://localhost:3000/  -t nginx-front . | define them as ARG BACKEND_URL | usage $BACKEND_URL
 - Run docker with multiple replicas (add compose then run): docker compose up --scale api=3 --build (multiple instance with docker)
-- Docker swarm : used to orchestarte contains on multiple docker hosts (nodes) 
+- Docker swarm : used to orchestarte contains on multiple docker hosts (nodes) : manager node vs worker node
+- Docker swarm init : command takes ip paramter
+- Docker swarm join : docker swarm join-token manager | worker => to get join command with token as manage 
+- Run service on the swarm :  docker service create web -p 80:80 --replicas 1 nginx:alpine : only for managers
+- Show all services with : docker service ls : only for managers
+- Show info of services and nodes: docker service ps web : only for managers
+- In case number of replices < nr node: service will be run first on worker nodes than to managers
+- Change number of replicas when service is running: docker service scale web=9 | add or remove
+- Docker swarm change service version: On case we want to update the used image version in specific service => docker service update --image nginx:latest ---update-parallelism 2 --update-delay 5s web
+- Docker swarm cons1: when node shut down services (out of service or docker service stop), replicas will be moved to the other nodes, when these nodes gets back the docker swarm does not re-dist the contaienrs again (complicated custom actions are needed)
+- Docker swarm cons2: docker service create --name ubuntu --replicas 2 ubuntu:latest, 
+    keeps retrying forever and doesn't work, cause images are stateless, and services should be stateful (takes the running command as state), when service converged ==> means the desired state is met by the contaienrs
+    ubuntu container doesn't have any services, doesn't run therefore the running state will never met ==> service not converged, we can make it with add 'bash -c "while:true; do echo hello; sleep 2; done"'
+-  
