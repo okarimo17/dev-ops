@@ -9,7 +9,8 @@
 - Run nginx link with front build : docker run --name some-nginx -p 8000:80 -v ./front/dist:/usr/share/nginx/html nginx
 
 - Build image with envs : docker build --build-arg BACKEND_URL=http://localhost:3000/  -t nginx-front . | define them as ARG BACKEND_URL | usage $BACKEND_URL
-- Run docker with multiple replicas (add compose then run): docker compose up --scale api=3 --build (multiple instance with docker)
+- Run docker with multiple replicas (add compose then run): docker compose up --scale api=3 --build (multiple instance with docker) | or put them in .yml file and just run it normally
+
 - Docker swarm : used to orchestarte contains on multiple docker hosts (nodes) : manager node vs worker node
 - Docker swarm init : command takes ip paramter
 - Docker swarm join : docker swarm join-token manager | worker => to get join command with token as manage 
@@ -23,4 +24,8 @@
 - Docker swarm cons2: docker service create --name ubuntu --replicas 2 ubuntu:latest, 
     keeps retrying forever and doesn't work, cause images are stateless, and services should be stateful (takes the running command as state), when service converged ==> means the desired state is met by the contaienrs
     ubuntu container doesn't have any services, doesn't run therefore the running state will never met ==> service not converged, we can make it with add 'bash -c "while:true; do echo hello; sleep 2; done"'
--  
+    Docker swarm can have issues in case container is up but some of the inside service are running
+- Docker stack: Automate services deploymenets with the desired state, file name same as docker-compose named docker-stack.yml, this file can be executed as compose (one single host)
+- Docker secrets: we create ssh crtfiles, then we use the domain srt to create secrets as : docker secret create db_name domain.key or domain.crt 
+    | or as txt file => echo staging | docker secret create staging token -
+- Docker stack build: deploy stack deploy -c docker-stack.yml name_stack

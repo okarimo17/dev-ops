@@ -1,0 +1,94 @@
+
+
+services:
+  front:
+    image: karimo17/front-rc
+    # restart: always
+    # ports:
+    #   - 5000:80
+    expose:
+      - 80
+    networks:
+      - full_app_network
+
+    deploy:
+      update_config:
+        failure_action: rollback
+      # placement:
+      #   constrains:
+      #     - 'node.labels.test == front'
+  api:
+    image: karimo17/srv-nd
+    # restart: unless-stopped 
+    # ports:
+    #   - 3000:3000
+    expose:
+      - 3000
+    environment:
+      - NODE_ENV=production
+    networks:
+      - full_app_network
+      # - payement_network
+    # deploy:
+    #   replicas: 3
+
+    secrets:
+      - source: pg_db_password  # name of secret in linux
+        target: db_password # name of secret in swarm
+      # - db_password
+
+    
+    deploy:
+      replicas: 2
+      update_config:
+        parallelism: 2
+        failure_action: rollback
+      # placement:
+      #   constrains:
+      #     - 'node.role == worker'
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        # max_attemps: 3
+        window: 120s
+    
+      
+    # secrets:
+    #   - db_password
+      
+  rev_proxy:
+    image: nginx:1.29.1-alpine
+    ports:
+      - 80:80
+      - 443:443
+
+    environment:
+      - NGINX_HOST=localhost
+    volumes:
+      - ./nginx/reverse_proxy/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+      # # activate for ssl
+      # - ./nginx/ssl/localhost.crt:/etc/ssl/certs/localhost.crt:ro
+      # - ./nginx/ssl/localhost.key:/etc/ssl/private/localhost.key:ro
+    depends_on:
+      - api
+      - front
+    networks:
+      - full_app_network
+
+networks:
+  full_app_network:
+    driver: overlay 
+  
+  payement_network:
+    driver: overlay
+    driver_opts:
+      encrypted: "true"
+    
+secrets:
+  # pg_db_password:
+  #   external: true # if set true will check if db_password exist, if not it will create it | case not set or false : will override it | read it from ssl certificate
+  pg_db_password:
+    file: ./secrets/db_password
+  
+
+  
