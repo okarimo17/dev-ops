@@ -29,3 +29,19 @@
 - Docker secrets: we create ssh crtfiles, then we use the domain srt to create secrets as : docker secret create db_name domain.key or domain.crt 
     | or as txt file => echo staging | docker secret create staging token -
 - Docker stack build: deploy stack deploy -c docker-stack.yml name_stack
+- Docker portainer: visualize all services and stacks in good way 
+
+- Container management: is the process of organizing, adding, removing, or updating a significant number of containers.
+- Container orchestrator: A container orchestrator is a system that automatically deploys and manages containerized apps. As part of management, the orchestrator handles scaling dynamic changes in the environment to increase or decrease the number of deployed instances of the app.  == Kubernates
+
+- K8s Manager node Components: 
+    - API server (kubectl): cli to interact with k8s API server services, manage clusters ... (+++) | also use dashboard addon | APIs in languages restful
+    - etcd db: key:value stores saved memory, contains configuration and content of clusters
+    - scheduler: create pods, containers, changes replicas ...
+    - controller manager: compare current state of its clusters with desired state found in the etcd db
+    - cloud controller manager (optional): in case deploymenet on cloud
+
+- K8s Worker node Components: 
+    - kubelet: agent communicates with manager, and execute comamnds of scheduler, reports state of node to the manager
+    - kube-proxy: manage network, apis of pods, containers, services (ext, int), load balancing, reverse proxy..
+
