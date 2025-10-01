@@ -11,12 +11,12 @@
 - Build image with envs : docker build --build-arg BACKEND_URL=http://localhost:3000/  -t nginx-front . | define them as ARG BACKEND_URL | usage $BACKEND_URL
 - Run docker with multiple replicas (add compose then run): docker compose up --scale api=3 --build (multiple instance with docker) | or put them in .yml file and just run it normally
 
-- Docker swarm : used to orchestarte contains on multiple docker hosts (nodes) : manager node vs worker node
+- Docker swarm : used to orchestarte contains on multiple docker hosts (nodes) | manager node vs worker node
 - Docker swarm init : command takes ip paramter
 - Docker swarm join : docker swarm join-token manager | worker => to get join command with token as manage 
-- Run service on the swarm :  docker service create web -p 80:80 --replicas 1 nginx:alpine : only for managers
-- Show all services with : docker service ls : only for managers
-- Show info of services and nodes: docker service ps web : only for managers
+- Run service on the swarm :  docker service create web -p 80:80 --replicas 1 nginx:alpine | only for managers
+- Show all services with : docker service ls | only for managers
+- Show info of services and nodes: docker service ps web | only for managers
 - In case number of replices < nr node: service will be run first on worker nodes than to managers
 - Change number of replicas when service is running: docker service scale web=9 | add or remove
 - Docker swarm change service version: On case we want to update the used image version in specific service => docker service update --image nginx:latest ---update-parallelism 2 --update-delay 5s web
@@ -25,12 +25,14 @@
     keeps retrying forever and doesn't work, cause images are stateless, and services should be stateful (takes the running command as state), when service converged ==> means the desired state is met by the contaienrs
     ubuntu container doesn't have any services, doesn't run therefore the running state will never met ==> service not converged, we can make it with add 'bash -c "while:true; do echo hello; sleep 2; done"'
     Docker swarm can have issues in case container is up but some of the inside service are running
+
 - Docker stack: Automate services deploymenets with the desired state, file name same as docker-compose named docker-stack.yml, this file can be executed as compose (one single host)
-- Docker secrets: we create ssh crtfiles, then we use the domain srt to create secrets as : docker secret create db_name domain.key or domain.crt 
+- Docker secrets: we create ssh crtfiles, then we use the domain srt to create secrets as | docker secret create db_name domain.key or domain.crt 
     | or as txt file => echo staging | docker secret create staging token -
 - Docker stack build: deploy stack deploy -c docker-stack.yml name_stack
 - Docker portainer: visualize all services and stacks in good way 
 
+- Kubernates start:
 - Container management: is the process of organizing, adding, removing, or updating a significant number of containers.
 - Container orchestrator: A container orchestrator is a system that automatically deploys and manages containerized apps. As part of management, the orchestrator handles scaling dynamic changes in the environment to increase or decrease the number of deployed instances of the app.  == Kubernates
 
@@ -40,8 +42,25 @@
     - scheduler: create pods, containers, changes replicas ...
     - controller manager: compare current state of its clusters with desired state found in the etcd db
     - cloud controller manager (optional): in case deploymenet on cloud
-
+    - virtual net: connect all nodes in the cluster into on machine
+    - config map: config data of app, urls, not passwords... | secrets for password
 - K8s Worker node Components: 
     - kubelet: agent communicates with manager, and execute comamnds of scheduler, reports state of node to the manager
     - kube-proxy: manage network, apis of pods, containers, services (ext, int), load balancing, reverse proxy..
+
+- K8s base unit is pods (instead of docker container): abstraction layer | contain 0..n container | has only one ip address | 
+- K8s deploymenets (instead of docker service): end user works with deploymenets | abstraction layer of pods | here we set replicas settings and update functions | (distributed over set of nodes)
+- K8s service layer (load balancer): acts as load blancer layer that we can use to access the apps and deploymenets since they are distributed, users can interact with that but routing may not be clear | A Kubernetes Service is an abstraction layer which defines a logical set of Pods and enables external traffic exposure, load balancing and service discovery for those Pods.
+- K8s ingress layer: manages external access, acting as an entry point for HTTP/HTTPS traffic and providing advanced routing rules to direct requests to different internal Services, better routing for users' 
+
+- K8s pr volumes: persist volumes to save all deploymenets datas
+- ConfigMap : config data of app, urls, not good for passwords and... | secrets for password
+
+- K8s Commands:
+- Minikube ip: to the cluster get ip
+- check cluster on: kubectl config current-context
+- show nodes:  kubectl get (nodes | deployments | services | all)
+- Create deployement: kubectl create deployment kuber-test --image=gcr.io/google-samples/kubernetes-bootcamp:v1
+- Access pods: activate proxy first then => http://localhost:8001/api/v1/namespaces/default/pods/kuber-test-79c9ff98f-ww5g7 show pod info => access add :8080/proxy/
+- Exectute commands on pods: kubectl exec kuber-test-79c9ff98f-ww5g7 -- env | logs = kubectl logs kuber-test-79c9ff98f-ww5g7
 
