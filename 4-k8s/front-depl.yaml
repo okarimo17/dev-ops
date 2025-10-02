@@ -1,0 +1,26 @@
+
+
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: full-front
+  labels:
+    app: full-front
+
+
+spec:
+  selector:
+    matchLabels:
+      app: full-front
+  template:
+    metadata:
+      labels:
+        app: full-front
+    spec:
+      containers:
+      - name: full-front-rc
+        image: full-rc:v1
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80

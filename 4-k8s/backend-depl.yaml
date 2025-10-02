@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+
+kind: Deployment
+
+metadata:
+  name: full-backend
+  labels:
+    app: full-backend
+    
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: full-backend
+  template:
+    metadata:
+      labels:
+        app: full-backend
+    spec:      
+      containers:
+        - name: full-backend-nd
+          image: full-nd
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 3000
+          # resources:
+          #   limits:
+          #     memory: "128mi"
+          #     cpu: "250m"
+  

@@ -64,3 +64,25 @@
 - Access pods: activate proxy first then => http://localhost:8001/api/v1/namespaces/default/pods/kuber-test-79c9ff98f-ww5g7 show pod info => access add :8080/proxy/
 - Exectute commands on pods: kubectl exec kuber-test-79c9ff98f-ww5g7 -- env | logs = kubectl logs kuber-test-79c9ff98f-ww5g7
 
+- Expose deployment port use: kubectl expose deployment.apps/kuber-test --type='NodePort' --port 8080 (internal port) = this will create new service with auto port mapped  | should exposed to make service
+- show info: kubectl describe services/test-kb
+- Acces inner net with minikube: minikube service ts-kb
+- Access inside cluster (minikube contianer) : clusterip:serice_exposed_port
+- Rescalling deploymenets with : kubectl scale deployment.apps/t-kb --replicas 4 | load balancer will be auto 
+- Another way to expose service as load balancer: kubectl expose deployment.apps/ts-kb --type=LoadBalancer --port=8080, and use minikube tunnel to access it through ext ip, found in kubectl get svc (TODO)
+- Another way is to use: ingres to make the app accessible for all users (TODO)
+- show current state of pod: kubectl describe pod pod-name 
+- Expose Command:
+    kubectl expose deployment ts-kb \
+    --type=NodePort \ (ClusterIP, NodePort, LoadBalancer)
+    --name=ts-kb-svc-new \
+    --port=8080 \
+    --target-port=8080
+    --node-port=31000 (30000-32767)
+- Execute command inside pod: kubectl exec -ti $POD_NAME -- curl http://localhost:8080
+- update deployment version (image):  kubectl set image deployment.apps/ts-kb {Cotnainer_name}=jocatalin/kubernates-bootcamp:v2 (we get cont name by => kubectl describe deployment tskb)| can be edited through kb dashboard yml file
+
+- For DB: we must use StatefulSet since replicating db can cause issues as they use data files
+
+- Build with yml: kubectl apply -f config.yaml
+- edit deployed config: kubectl edit deployment.apps/front-t
