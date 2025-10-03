@@ -86,3 +86,5 @@
 
 - Build with yml: kubectl apply -f config.yaml
 - edit deployed config: kubectl edit deployment.apps/front-t
+- get pods all info (ip): kubectl get pod -o wide
+- save k8s dep in file: kubectl get deployment name-dep -o yaml > file.yml
