@@ -3,7 +3,7 @@ import { useNotes } from "../context/NotesContext";
 import { notesApi } from "../api/notesApi";
 
 export function useAddNote() {
-  const { setNotes } = useNotes();
+  const { refetchNotes } = useNotes();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -12,7 +12,7 @@ export function useAddNote() {
     setError(null);
     try {
       const newNote = await notesApi.create(text);
-      setNotes((prev) => [...prev, newNote]);
+      await refetchNotes()
     } catch (err) {
       setError(err.message);
     } finally {
@@ -24,7 +24,7 @@ export function useAddNote() {
 }
 
 export function useDeleteNote() {
-  const { setNotes } = useNotes();
+  const { refetchNotes } = useNotes();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -33,7 +33,7 @@ export function useDeleteNote() {
     setError(null);
     try {
       await notesApi.delete(id);
-      // setNotes((prev) => prev.filter((n) => n.id !== id));
+      await refetchNotes();
     } catch (err) {
       setError(err.message);
     } finally {

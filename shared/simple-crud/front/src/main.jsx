@@ -5,9 +5,7 @@ import App from './App.jsx'
 import { NotesProvider } from './context/NotesContext.jsx'
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <NotesProvider>
-      <App />
-    </NotesProvider>
-  </StrictMode>,
+  <NotesProvider>
+    <App />
+  </NotesProvider>
 )

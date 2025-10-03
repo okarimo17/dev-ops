@@ -1,0 +1,85 @@
+
+
+
+services:
+  notes_back: 
+    container_name: notes_back
+    build:
+      context: ./server/
+      dockerfile: Dockerfile
+
+    environment:
+      DB_HOST: notes_db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: pass_pass
+      DB_NAME: notes_app
+      DATABASE_URL: "postgresql://postgres:pass_pass@notes_db:5432/notes_app?schema=public"      
+      NODE_ENV: production
+
+    depends_on:
+      - notes_db
+    # ports: 
+    #   - 3000:3000
+    expose: 
+      - 3000
+    networks:
+      - full_notes_net
+    deploy:
+      replicas: 1
+
+  notes_db: 
+    image: postgres:18.0-alpine3.22
+    container_name: notes_db
+    # shm_size: 128mb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass_pass
+      POSTGRES_DB: notes_app
+    # ports:
+    #   - "5432:5432"
+    expose: 
+      - 5432
+
+    volumes:
+      - notes_db_data:/var/lib/postgresql/data
+    networks:
+      - full_notes_net
+
+  notes_front: 
+    container_name: notes_front
+    build:
+      context: ./front/
+      dockerfile: Dockerfile
+      args:
+        VITE_BACKEND_URL: /api/        
+    expose:
+      - 80
+    networks:
+      - full_notes_net 
+    depends_on:
+      - notes_back
+  rev_proxy:
+    image: nginx:1.29.1-alpine
+    container_name: rev_proxy
+    ports:
+      - 80:80
+      - 443:443
+    environment:
+      - NGINX_HOST=localhost
+    volumes:
+      - ./reverse-proxy/default.conf.template:/etc/nginx/templates/default.conf.template:ro
+    depends_on:
+      - notes_back
+      - notes_db
+      - notes_front
+    networks:
+      - full_notes_net
+    
+
+volumes:
+  notes_db_data:
+
+networks:
+  full_notes_net:
+    driver: bridge

@@ -5,6 +5,7 @@
 
 - Run the backend: docker run --name nserver --network my-app-network backend-image-name
 - Run the frontend: docker run --name fclient --network my-app-network frontend-image-name
+- Run db : docker run -d   --name postgres_db   -e POSTGRES_USER=postgres   -e POSTGRES_PASSWORD=postgres   -e POSTGRES_DB=notes_app   -p 5432:5432   --shm-size=128mb   -v pgdata:/var/lib/postgresql/data   postgres:18.0-alpine3.22
 - Run image interactivity:  docker run -it ubuntu bash | -d detached working in the background + docker exec -it some-nginx bash open it
 - Run nginx link with front build : docker run --name some-nginx -p 8000:80 -v ./front/dist:/usr/share/nginx/html nginx
 

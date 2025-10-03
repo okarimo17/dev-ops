@@ -4,35 +4,34 @@ import viteLogo from '/vite.svg'
 
 import Notes from './components/Notes'
 import AddNoteForm from './components/AddNoteForm'
+import { hostnameApi } from './api/hostnameApi'
 
 
-// const backendUrl = import.meta.env.VITE_BACKEND_URL;
-// const getHostInfo = useMemo(() => async ()=>{
-//   try{
-//     const response = await fetch(`${backendUrl}`)
-//     const hostname = response.json()
-//     setHostInfo(hostname)
-//   }catch(error){
-//     console.error(error.message)
-//   }
-// })
-
-// useEffect(()=>{
-//   getHostInfo()
-// }, [])
 
 function App() {
+  const [hostname,setHostname] = useState('loading...')
+  const getHostInfo = useMemo(() => async ()=>{
+    try{
+      const response = await fetch(`${backendUrl}`)
+      const hostname = response.json()
+      setHostInfo(hostname)
+    }catch(error){
+      console.error(error.message)
+    }
+  })
+  
+  useEffect(async ()=>{
+    hostnameApi.fetchHostname().then(setHostname)
+  }, [])
 
   return (
     <>
       <div className='flex justify-center'>
         <img src={viteLogo} className="logo" alt="Vite logo" />    
       </div>
-      <h1 className="text-xl text-center my-2">Notes App</h1>      
+      <h1 className="text-xl text-center my-2">Notes App: {hostname}</h1>      
       <AddNoteForm />
-
-      <Notes />      
-
+      <Notes />
       <p className="text-gray-400 static bottom-0">
         For testing purposes only...
       </p>

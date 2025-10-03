@@ -7,7 +7,7 @@ export const notesApi = {
   create: (note) =>
     sendRequest("/notes", {
       method: "POST",
-      body: JSON.stringify({ text: note }),
+      body: JSON.stringify({ content: note }),
     }),
 
   delete: (id) =>
