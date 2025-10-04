@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-db
+spec:
+  selector:
+    matchLabels:
+      app: notes-db
+  template:
+    metadata:
+      labels:
+        app: notes-db
+    spec:
+      containers:
+        - name: notes-db
+          image: postgres:18.0-alpine3.22
+          imagePullPolicy: IfNotPresent  
+          env:        
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: notes-app-config
+                  key: DB_NAME
+
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: notes-app-secrets
+                  key: DB_USER
+
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: notes-app-secrets
+                  key: DB_PASSWORD
+          ports:
+          - containerPort: 5432
+
+      #     volumeMounts:
+      #       - name: notes-db-vol
+      #         mountPath: /var/lib/postgresql/data
+
+      # volumes:
+      #   - name: notes-db-vol
+      #     persistentVolumeClaim:
+      #       claimName: notes-db-pvc
+# ---
+# apiVersion: v1
+# kind: PersistentVolumeClaim
+# metadata:
+#   name: notes-db-pvc
+# spec:
+#   accessModes:
+#     - ReadWriteOnce
+#   storageClassName: standard
+#   resources:
+#     requests:
+#       storage: 1Gi
+  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notes-db-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: notes-db
+  ports:
+  - port: 5432    
+    targetPort: 5432
+

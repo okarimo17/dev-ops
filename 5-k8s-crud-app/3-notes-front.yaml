@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-front
+spec:
+  selector:
+    matchLabels:
+      app: notes-front
+  template:
+    metadata:
+      labels:
+        app: notes-front
+    spec:
+      containers:
+      - name: notes-front
+        image: notes-front:v1
+        imagePullPolicy: Never        
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: notes-front-svc
+spec:
+  type: ClusterIP
+  selector:
+    app: notes-front
+  ports:
+  - port: 5000    
+    targetPort: 80
+

@@ -14,6 +14,7 @@ services:
       DB_USER: postgres
       DB_PASSWORD: pass_pass
       DB_NAME: notes_app
+
       DATABASE_URL: "postgresql://postgres:pass_pass@notes_db:5432/notes_app?schema=public"      
       NODE_ENV: production
 
@@ -59,6 +60,7 @@ services:
       - full_notes_net 
     depends_on:
       - notes_back
+      
   rev_proxy:
     image: nginx:1.29.1-alpine
     container_name: rev_proxy
