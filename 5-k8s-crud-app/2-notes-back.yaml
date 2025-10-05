@@ -3,6 +3,7 @@ kind: Deployment
 metadata:
   name: notes-backend
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: notes-backend
@@ -14,7 +15,7 @@ spec:
       containers:
       - name: notes-backend
         image: notes-back:v1
-        imagePullPolicy: Never
+        imagePullPolicy: IfNotPresent
         # envFrom:
         #   - secretRef:
         #       name: notes-app-secrets

@@ -26,5 +26,25 @@ spec:
               service:
                 name: notes-backend-svc
                 port:
+                  number: 3000     
+
+    - host: notes.local
+      http:
+        paths:
+          - path: /?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: notes-front-svc
+                port:
+                  number: 5000
+
+
+          - path: /api/(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: notes-backend-svc
+                port:
                   number: 3000       
                              

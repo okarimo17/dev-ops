@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: notes-pg-volume-claim
+  labels:
+    app: notes-pg-volume-claim
+spec:
+  # storageClassName: standard
+  storageClassName: manual
+  resources:
+    requests:
+      storage: 1Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeName: notes-pg-volume

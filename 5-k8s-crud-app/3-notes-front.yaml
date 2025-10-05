@@ -14,7 +14,7 @@ spec:
       containers:
       - name: notes-front
         image: notes-front:v1
-        imagePullPolicy: Never        
+        imagePullPolicy: IfNotPresent        
         ports:
         - containerPort: 80
 ---

@@ -33,17 +33,20 @@ spec:
                 secretKeyRef:
                   name: notes-app-secrets
                   key: DB_PASSWORD
+            - name: PGDATA
+              value: /data/pgdata
           ports:
           - containerPort: 5432
+          volumeMounts:
+            - name: notes-db-data
+              mountPath: /data
+              
+      volumes:
+        - name: notes-db-data
+          persistentVolumeClaim:
+            claimName: notes-pg-volume-claim
 
-      #     volumeMounts:
-      #       - name: notes-db-vol
-      #         mountPath: /var/lib/postgresql/data
 
-      # volumes:
-      #   - name: notes-db-vol
-      #     persistentVolumeClaim:
-      #       claimName: notes-db-pvc
 # ---
 # apiVersion: v1
 # kind: PersistentVolumeClaim
