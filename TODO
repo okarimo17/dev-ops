@@ -33,9 +33,9 @@
 - Docker stack build: deploy stack deploy -c docker-stack.yml name_stack
 - Docker portainer: visualize all services and stacks in good way 
 
-- Kubernates start:
+- Kubernetes start:
 - Container management: is the process of organizing, adding, removing, or updating a significant number of containers.
-- Container orchestrator: A container orchestrator is a system that automatically deploys and manages containerized apps. As part of management, the orchestrator handles scaling dynamic changes in the environment to increase or decrease the number of deployed instances of the app.  == Kubernates
+- Container orchestrator: A container orchestrator is a system that automatically deploys and manages containerized apps. As part of management, the orchestrator handles scaling dynamic changes in the environment to increase or decrease the number of deployed instances of the app.  == Kubernetes
 
 - K8s Manager node Components: 
     - API server (kubectl): cli to interact with k8s API server services, manage clusters ... (+++) | also use dashboard addon | APIs in languages restful
@@ -81,7 +81,7 @@
     --target-port=8080
     --node-port=31000 (30000-32767)
 - Execute command inside pod: kubectl exec -ti $POD_NAME -- curl http://localhost:8080
-- update deployment version (image):  kubectl set image deployment.apps/ts-kb {Cotnainer_name}=jocatalin/kubernates-bootcamp:v2 (we get cont name by => kubectl describe deployment tskb)| can be edited through kb dashboard yml file
+- update deployment version (image):  kubectl set image deployment.apps/ts-kb {Cotnainer_name}=jocatalin/kubernetes-bootcamp:v2 (we get cont name by => kubectl describe deployment tskb)| can be edited through kb dashboard yml file
 
 - For DB: we must use StatefulSet since replicating db can cause issues as they use data files
 
