@@ -4,7 +4,7 @@ services:
   front:
     container_name: front
     build: 
-      context: ../simple-1/shared/front/
+      context: ../shared//simple-1/shared/front/
       dockerfile: Dockerfile
       args:
         # BACKEND_URL: http://localhost:3000/
@@ -21,7 +21,7 @@ services:
   api:
     # container_name: api
     build: 
-      context: ../simple-1/shared/server/
+      context: ../shared/simple-1/shared/server/
       dockerfile: Dockerfile
     # restart: unless-stopped 
     # ports:

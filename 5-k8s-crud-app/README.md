@@ -10,8 +10,8 @@ A full-stack CRUD application deployed on Kubernetes, demonstrating advanced con
 ## Structure
 - `0-config-map.yaml`, `0-secrets.yaml`: App configuration and secrets
 - `1-pg-db.yaml`: PostgreSQL deployment and persistent storage
-- `2-notes-back.yaml`: Backend API deployment
-- `3-notes-front.yaml`: Frontend deployment
+- `2-notes-back.yaml`: Backend API deployment : Backend deployment and service (build image `/shared/simple-crud/server/` as 'notes-back:v1')
+- `3-notes-front.yaml`: Frontend deployment : Frontend deployment and service (build image `/shared/simple-crud/front/` as 'notes-front:v1')
 - `4-reverse-ingrix.yaml`: Ingress resource for routing
 - `0-volumes/`: Persistent volume and claim definitions
 
